@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { AuthService } from '../../../shared/services/auth/auth.service';
 
 @Component({
   selector: 'login',
@@ -11,14 +14,30 @@ import { FormGroup } from '@angular/forms';
         <button type="submit">
           Login
         </button>
+
+        <div *ngIf="error"  class="error">
+          {{error}}
+        </div>
       </auth-form>
     </div>
   `
 })
 export class LoginComponent {
-  constructor() {}
+  error: string;
 
-  loginUser(event: FormGroup) {
-    console.log(event.value);
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
+
+  async loginUser(event: FormGroup) {
+    const { email, password } = event.value;
+    try {
+      await this.authService.loginUser(email, password);
+      this.router.navigate(['/']);
+    } catch (error) {
+      console.log(error);
+      this.error = error.message;
+    }
   }
 }
