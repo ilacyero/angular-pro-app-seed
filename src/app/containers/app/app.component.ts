@@ -11,7 +11,15 @@ import { AuthService, User } from '../../../auth/shared/services/auth/auth.servi
   styleUrls: ['app.component.scss'],
   template: `
     <div>
-      <h1>{{user$ | async | json }}</h1>
+      <app-header
+        [user]="user$ | async"
+        (logout)="onLogout()"
+      >
+      </app-header>
+      <app-nav
+        *ngIf="(user$ | async)?.authenticated"
+      >
+      </app-nav>
       <div class="wrapper">
         <router-outlet></router-outlet>
       </div>
@@ -35,5 +43,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  onLogout() {
+    console.log('logout');
   }
 }
