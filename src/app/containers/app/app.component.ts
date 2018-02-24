@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Store } from 'store';
 import { AuthService, User } from '../../../auth/shared/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private authService: AuthService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -45,7 +47,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  onLogout() {
-    console.log('logout');
+  async onLogout() {
+    await this.authService.logoutUser();
+    this.router.navigate(['/auth/login']);
   }
 }

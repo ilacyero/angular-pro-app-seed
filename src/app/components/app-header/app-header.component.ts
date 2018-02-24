@@ -12,7 +12,9 @@ import { User } from '../../../auth/shared/services/auth/auth.service';
         <img src="/img/logo.svg">
         <div
           *ngIf="user?.authenticated"
-          class="app-header__user-info">
+          class="app-header__user-info"
+          title="logout"
+          >
           <span (click)="logoutUser()"></span>
         </div>
       </div>
