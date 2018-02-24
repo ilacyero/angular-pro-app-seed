@@ -58,7 +58,7 @@ export class AuthFormComponent {
 
   onSubmit() {
     if (this.form.valid) {
-      this.submitted.emit(this.form.value);
+      this.submitted.emit(this.form);
     }
   }
 
