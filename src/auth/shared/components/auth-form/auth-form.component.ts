@@ -1,5 +1,5 @@
-import { Component, EventEmitter } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'auth-form',
@@ -22,6 +22,14 @@ import { FormBuilder, Validators } from '@angular/forms';
           >
         </label>
 
+        <div class="error" *ngIf="emailFormat">
+          Invalid email format
+        </div>
+  
+        <div class="error" *ngIf="passwordInvalid">
+          Password is required
+        </div>
+
         <ng-content select=".error"></ng-content>
 
         <div class="auth-form__action">
@@ -37,6 +45,8 @@ import { FormBuilder, Validators } from '@angular/forms';
   `
 })
 export class AuthFormComponent {
+  @Output() submitted = new EventEmitter<FormGroup>();
+
   form = this.fb.group({
     email: ['', Validators.email],
     password: ['', Validators.required],
@@ -47,6 +57,18 @@ export class AuthFormComponent {
   ) {}
 
   onSubmit() {
-    console.log(this.form.value);
+    if (this.form.valid) {
+      this.submitted.emit(this.form.value);
+    }
+  }
+
+  get passwordInvalid() {
+    const control = this.form.get('password');
+    return control.touched && control.hasError('required');
+  }
+
+  get emailFormat() {
+    const control = this.form.get('email');
+    return control.touched && control.hasError('email');
   }
 }
