@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'list-item',
@@ -30,18 +30,18 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
   `
 })
 export class ListItemComponent {
-
+  @Output() remove = new EventEmitter<any>();
   @Input() item: any
-  toogled = false;
 
+  toogled = false;
   constructor() {}
 
   getRoute(item: any) {
     return [`../meals`, item.$key];
   }
 
-  removeItem() {
-
+  removeItem(event: any) {
+    this.remove.emit(this.item);
   }
 
   toogle() {
