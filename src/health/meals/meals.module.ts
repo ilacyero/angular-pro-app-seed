@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MealsComponent } from './containers';
+import { MealsComponent, MealComponent } from './containers';
 import { SharedModule } from '../shared/shared.module';
 
 export const ROUTES: Routes = [
   { path: '', component: MealsComponent },
+  { path: 'new', component: MealComponent },
 ];
 
 @NgModule({
@@ -18,7 +19,8 @@ export const ROUTES: Routes = [
     SharedModule,
   ],
   declarations: [
-    MealsComponent
+    MealsComponent,
+    MealComponent,
   ],
 })
 export class MealsModule {}
