@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { Meal } from '../../../shared/services';
 
 @Component({
   selector: 'meal-form',
@@ -14,6 +15,9 @@ import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms'
             <input type="text" placeholder="e.g. English Breakfast"
               formControlName="name"
             >
+            <div class="error" *ngIf="required">
+              Workout name is required
+            </div>
           </label>
         </div>
 
@@ -39,7 +43,7 @@ import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms'
 
         <div class="meal-form__submit">
           <div>
-            <button type="button" class="button"
+            <button type="button" class="button" [disabled]="!form.valid"
               (click)="createMeal()">
               Create meal
             </button>
@@ -55,6 +59,7 @@ import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms'
   `
 })
 export class MealFormComponent {
+  @Output() create = new EventEmitter<Meal>();
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -65,12 +70,21 @@ export class MealFormComponent {
     return this.form.get('ingredients') as FormArray;
   }
 
+  get required() {
+    return (
+      this.form.get('name').hasError('required') &&
+      this.form.get('name').touched
+    );
+  }
+
   constructor(
     private fb: FormBuilder,
   ) {}
 
   createMeal() {
-    console.log(this.form.value);
+    if (this.form.valid) {
+      this.create.emit(this.form.value);
+    }
   }
 
   addIngredient() {
