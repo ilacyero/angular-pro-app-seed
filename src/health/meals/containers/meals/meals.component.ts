@@ -25,12 +25,19 @@ import { Store } from 'store';
         </a>
       </div>
 
-      <div *ngIf="meals$ | async as meals;">
+      <div *ngIf="meals$ | async as meals; else loading;">
         <div *ngIf="!meals.length" class="message">
-        <img src="/img/face.svg">
+          <img src="/img/face.svg">
           No meals, add a new meal to start.
         </div>
       </div>
+
+      <ng-template #loading>
+        <div class="message">
+          <img src="/img/loading.svg">
+          Fetching meals...
+        </div>
+      </ng-template>
     </div>
   `
 })
