@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 import { MealsService } from './services';
+import { ListItemComponent } from './components';
 
 @NgModule({
   imports: [
@@ -12,8 +13,12 @@ import { MealsService } from './services';
     RouterModule,
     AngularFireDatabaseModule,
   ],
-  declarations: [],
-  providers: []
+  declarations: [
+    ListItemComponent,
+  ],
+  exports: [
+    ListItemComponent,
+  ]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
