@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 
 import { Store } from 'store';
@@ -33,6 +34,10 @@ export class AuthService {
     private af: AngularFireAuth,
     private store: Store,
   ) { }
+
+  get authState() {
+    return this.af.authState;
+  }
 
   createUser(email: string, password: string) {
     return this.af.auth.createUserWithEmailAndPassword(email, password);
